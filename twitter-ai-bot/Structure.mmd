@@ -1,0 +1,60 @@
+graph TB
+    subgraph TP["Twitter Platform"]
+        XA[X API]
+    end
+
+    subgraph CA["Core Application"]
+        AM[API Manager]
+        QH[Queue Handler]
+        RC[Rate Control Manager]
+        DM[Data Manager]
+    end
+        
+    subgraph AE["AI Engine"]
+        LLM_API[LLM API Client]
+        CS[Content Synthesizer]
+        
+        subgraph MM["Memory Management"]
+            CM[Conversation Memory]
+            KB[Knowledge Base]
+            VC[Vector Cache]
+        end
+        
+        subgraph CP["Context Processor"]
+            CH[Conversation History]
+            PE[Prompt Engineer]
+            TC[Thread Combiner]
+        end
+    end
+
+    subgraph DS["Data Storage"]
+        VDB[(Vector DB)]
+        RDB[(Relational DB)]
+        Cache[(Redis Cache)]
+    end
+
+    subgraph CF["Config"]
+        SK[Secret Keys]
+        PR[Prompt Rules]
+    end
+
+    XA --- AM
+    AM --> QH
+    QH --- RC
+    RC --- DM
+    DM --- CP
+    
+    CH --- PE
+    PE --- LLM_API
+    TC --- PE
+    
+    CM --- VDB
+    KB --- RDB
+    VC --- Cache
+    
+    LLM_API --- CS
+    
+    MM --- CP
+    
+    SK --> AM
+    PR --> PE
